@@ -6,10 +6,6 @@ import com.rozonww.EmailService;
 
 import io.javalin.Javalin;
 import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-
-import java.util.Properties;
 
 public class Main {
 
