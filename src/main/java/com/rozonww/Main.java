@@ -6,6 +6,7 @@ import com.rozonww.services.EmailService;
 import com.rozonww.services.EmailServiceConfiguration;
 
 import io.javalin.Javalin;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Main {
 
@@ -24,15 +25,19 @@ public class Main {
 
         app.post("/send", ctx -> {
             // Get request body
+
             // Validate it
             // If valid, send the email using email service
             // If not, return a JSON error
+
+            // Create mailer and send email
+            Dotenv env = Dotenv.load();
             EmailServiceConfiguration config = new EmailServiceConfiguration(
-                    "smtp-relay.brevo.com",
-                    587,
-                    "9cf67f001@smtp-brevo.com",
-                    "STMP API KEY",
-                    "noreply@devcolectivo.com"
+                    env.get("STMP_HOST"),
+                    Integer.parseInt(env.get("STMP_PORT")),
+                    env.get("STMP_USERNAME"),
+                    env.get("STMP_API_KEY"),
+                    env.get("STMP_SENDER")
             );
             EmailService mailer = new EmailService(config);
 
