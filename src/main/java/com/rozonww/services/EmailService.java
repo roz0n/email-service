@@ -1,4 +1,4 @@
-package com.rozonww;
+package com.rozonww.services;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -11,23 +11,19 @@ public class EmailService {
     private final Session session;
     private final String from;
 
-    public EmailService(String smtpHost,
-                        int smtpPort,
-                        String username,
-                        String password,
-                        String from) {
-        this.from = from;
+    public EmailService(EmailServiceConfiguration config) {
+        this.from = config.from;
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.port", String.valueOf(smtpPort));
+        props.put("mail.smtp.host", config.smtpHost);
+        props.put("mail.smtp.port", String.valueOf(config.smtpPort));
 
         this.session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(config.username, config.password);
             }
         });
     }

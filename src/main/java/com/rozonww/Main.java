@@ -2,10 +2,10 @@ package com.rozonww;
 
 import com.rozonww.models.EchoRequest;
 import com.rozonww.models.EchoResponse;
-import com.rozonww.EmailService;
+import com.rozonww.services.EmailService;
+import com.rozonww.services.EmailServiceConfiguration;
 
 import io.javalin.Javalin;
-import jakarta.mail.*;
 
 public class Main {
 
@@ -21,6 +21,24 @@ public class Main {
             res.message = req.message;
             ctx.json(res);
         });
+
+        app.post("/send", ctx -> {
+            // Get request body
+            // Validate it
+            // If valid, send the email using email service
+            // If not, return a JSON error
+            EmailServiceConfiguration config = new EmailServiceConfiguration(
+                    "smtp-relay.brevo.com",
+                    587,
+                    "9cf67f001@smtp-brevo.com",
+                    "STMP API KEY",
+                    "noreply@devcolectivo.com"
+            );
+            EmailService mailer = new EmailService(config);
+
+            mailer.send("",
+                    "Your paper was received!",
+                    "Your submission was received. We'll take a look and get back to you shortly.");
+        });
     }
 }
-
