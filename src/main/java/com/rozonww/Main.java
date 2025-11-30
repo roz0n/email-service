@@ -1,6 +1,15 @@
 package com.rozonww;
 
+import com.rozonww.models.EchoRequest;
+import com.rozonww.models.EchoResponse;
+import com.rozonww.EmailService;
+
 import io.javalin.Javalin;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
+import java.util.Properties;
 
 public class Main {
 
@@ -9,13 +18,13 @@ public class Main {
                 .get("/", ctx -> ctx.result("Hola mundo"))
                 .start(8080);
 
-        app.get("/echo", (ctx) -> {
-            ctx.result(ctx.toString());
-        });
-
         app.post("/echo", ctx -> {
-           var req = ctx.body();
-           ctx.result("Echo:" + "\n" + req);
+            var req = ctx.bodyAsClass(EchoRequest.class);
+            var res = new EchoResponse();
+
+            res.message = req.message;
+            ctx.json(res);
         });
     }
 }
+
