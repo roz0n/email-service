@@ -32,7 +32,10 @@ public class Main {
             // If not, return a JSON error
 
             // Create mailer and send email
-            Dotenv env = Dotenv.load();
+            Dotenv env = Dotenv
+                    .configure()
+                    .ignoreIfMissing()
+                    .load();
             MailerConfiguration config = new MailerConfiguration(
                     env.get("SMTP_HOST"),
                     Integer.parseInt(env.get("SMTP_PORT")),
