@@ -1,4 +1,4 @@
-package com.rozonww.services;
+package com.rozonww.services.mailer;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -6,12 +6,12 @@ import jakarta.mail.internet.MimeMessage;
 
 import java.util.Properties;
 
-public class EmailService {
+public class MailerService {
 
     private final Session session;
     private final String from;
 
-    public EmailService(EmailServiceConfiguration config) {
+    public MailerService(MailerConfiguration config) {
         this.from = config.from;
 
         Properties props = new Properties();
@@ -26,6 +26,8 @@ public class EmailService {
                 return new PasswordAuthentication(config.username, config.password);
             }
         });
+
+        this.session.setDebug(true);
     }
 
     public void send(String to, String subject, String body) {
