@@ -19,10 +19,7 @@ public class MailerService {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", config.smtpHost);
         props.put("mail.smtp.port", String.valueOf(config.smtpPort));
-
-        System.out.println("********>>>>>> Username" +  config.username);
-        System.out.println("********>>>>>> Password" + config.password);
-
+x
         this.session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
