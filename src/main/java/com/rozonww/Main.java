@@ -46,6 +46,11 @@ public class Main {
             );
             MailerService mailer = new MailerService(config);
 
+            System.out.println("SMTP_HOST=" + env.get("SMTP_HOST"));
+            System.out.println("SMTP_PORT=" + env.get("SMTP_PORT"));
+            System.out.println("SMTP_USERNAME=" + env.get("SMTP_USERNAME"));
+            System.out.println("SMTP_SENDER=" + env.get("SMTP_SENDER"));
+
             mailer.send(req.recipientEmail,
                     req.subject,
                     req.body);
