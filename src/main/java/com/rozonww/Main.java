@@ -35,6 +35,7 @@ public class Main {
             Dotenv env = Dotenv
                     .configure()
                     .ignoreIfMissing()
+                    .ignoreIfMalformed()
                     .load();
             MailerConfiguration config = new MailerConfiguration(
                     env.get("SMTP_HOST"),
