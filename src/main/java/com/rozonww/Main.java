@@ -34,11 +34,11 @@ public class Main {
             // Create mailer and send email
             Dotenv env = Dotenv.load();
             MailerConfiguration config = new MailerConfiguration(
-                    env.get("STMP_HOST"),
-                    Integer.parseInt(env.get("STMP_PORT")),
-                    env.get("STMP_USERNAME"),
-                    env.get("STMP_API_KEY"),
-                    env.get("STMP_SENDER")
+                    env.get("SMTP_HOST"),
+                    Integer.parseInt(env.get("SMTP_PORT")),
+                    env.get("SMTP_USERNAME"),
+                    env.get("SMTP_API_KEY"),
+                    env.get("SMTP_SENDER")
             );
             MailerService mailer = new MailerService(config);
 
