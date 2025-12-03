@@ -7,8 +7,11 @@ import com.rozonww.services.mailer.MailerSendRequest;
 import com.rozonww.services.mailer.MailerService;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
+import io.javalin.plugin.bundled.CorsPluginConfig;
+import io.javalin.validation.ValidationError;
 import io.javalin.validation.ValidationException;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class Main {
@@ -17,7 +20,11 @@ public class Main {
         Dotenv env = getEnvironmentValues();
         MailerService mailer = getMailerService(env);
 
-        var app = Javalin.create()
+        var app = Javalin.create(config -> {
+                    config.bundledPlugins.enableCors(corsConfig -> {
+                        corsConfig.addRule(CorsPluginConfig.CorsRule::anyHost);
+                    });
+                })
                 .get("/", ctx -> ctx.result("Hola mundo"))
                 .start(8080);
 
@@ -30,11 +37,8 @@ public class Main {
         });
 
         app.post("/send", ctx -> {
-            MailerSendRequest req = ctx.bodyValidator(MailerSendRequest.class)
-                    .check(body -> body.recipientEmail != null && !body.recipientEmail.isBlank(), "Recipient email is required")
-                    .check(body -> body.subject != null && !body.subject.isBlank(), "Subject is required")
-                    .check(body -> body.body != null && !body.body.isBlank(), "Body is required")
-                    .get();
+            MailerSendRequest req = ctx.bodyAsClass(MailerSendRequest.class);
+            req.validate();
 
             mailer.send(req.recipientEmail, req.subject, req.body);
             ctx.json(Map.of("success", true));
@@ -44,8 +48,8 @@ public class Main {
             var messages = e.getErrors()
                     .values()
                     .stream()
-                    .flatMap(list -> list.stream())
-                    .map(err -> err.getMessage())
+                    .flatMap(Collection::stream)
+                    .map(ValidationError::getMessage)
                     .toList();
             var errorMessage = messages.getFirst();
 
@@ -74,4 +78,3 @@ public class Main {
         return new MailerService(config);
     }
 }
-
