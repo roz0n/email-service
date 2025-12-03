@@ -70,7 +70,7 @@ public class Main {
                 env.get("SMTP_API_KEY"),
                 env.get("SMTP_SENDER")
         );
-        
+
         return new MailerService(config);
     }
 }
