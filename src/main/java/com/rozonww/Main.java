@@ -27,6 +27,7 @@ public class Main {
                         corsConfig.addRule(CorsPluginConfig.CorsRule::anyHost);
                     });
                 })
+                .get("/", ctx -> ctx.result("Caminante, no hay camino."))
                 .start(Integer.parseInt(env.get("SERVER_PORT")));
 
         app.post("/echo", ctx -> {
