@@ -5,11 +5,13 @@ import com.rozonww.models.EchoResponse;
 import com.rozonww.services.mailer.MailerConfiguration;
 import com.rozonww.services.mailer.MailerSendRequest;
 import com.rozonww.services.mailer.MailerService;
-import io.github.cdimascio.dotenv.Dotenv;
+
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.ValidationException;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.Collection;
 import java.util.Map;
@@ -25,8 +27,8 @@ public class Main {
                         corsConfig.addRule(CorsPluginConfig.CorsRule::anyHost);
                     });
                 })
-                .get("/", ctx -> ctx.result("Hola mundo"))
-                .start(8080);
+                .get("/", ctx -> ctx.result("Caminante, no hay camino."))
+                .start(Integer.parseInt(env.get("SERVER_PORT")));
 
         app.post("/echo", ctx -> {
             var req = ctx.bodyAsClass(EchoRequest.class);
