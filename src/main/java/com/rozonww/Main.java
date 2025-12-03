@@ -46,6 +46,7 @@ public class Main {
             ctx.json(Map.of("success", true));
         });
 
+        // I don't know that we need this due to our manual validation
         app.exception(ValidationException.class, (e, ctx) -> {
             var messages = e.getErrors()
                     .values()
@@ -57,6 +58,11 @@ public class Main {
 
             ctx.status(400);
             ctx.json(Map.of("success", false, "message", errorMessage));
+        });
+
+        app.exception(MailerSendRequest.InvalidRequestException.class, (e, ctx) -> {
+            ctx.status(400);
+            ctx.json(Map.of("success", false, "message", e.getMessage()));
         });
     }
 
