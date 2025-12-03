@@ -1,43 +1,41 @@
 package com.rozonww.services.mailer;
 
-import io.javalin.validation.ValidationError;
-
 public class MailerSendRequest {
     public String recipientEmail;
     public String subject;
     public String body;
 
-    public class InvalidRequestException extends RuntimeException {
+    public static final String EMAIL_REGEX = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+
+    public static class InvalidRequestException extends RuntimeException {
         public  InvalidRequestException(String message) {
             super(message);
         }
     }
 
-    public boolean validate() {
+    public void validate() {
         if (!validateEmail(recipientEmail)) {
             throw new InvalidRequestException("Email is invalid");
         }
 
-        if (!validateEmail(subject)) {
+        if (!validateSubject(subject)) {
             throw new InvalidRequestException("Subject is invalid");
         }
 
-        if (!validateEmail(body)) {
+        if (!validateBody(body)) {
             throw new InvalidRequestException("Body is invalid");
         }
-
-        return true;
     }
 
     private boolean validateEmail(String email) {
-        return email != null && !email.isBlank();
+        return email != null && !email.isBlank() && email.matches(EMAIL_REGEX);
     }
 
     private boolean validateSubject(String subject) {
-        return subject != null && !subject.isBlank();
+        return subject != null && !subject.isBlank() && subject.length() >= 10;
     }
 
     private boolean validateBody(String body) {
-        return body != null && !body.isBlank();
+        return body != null && !body.isBlank() && body.length() >= 180;
     }
 }
