@@ -2,6 +2,7 @@ package com.rozonww;
 
 import com.rozonww.echo.models.EchoRequest;
 import com.rozonww.echo.models.EchoResponse;
+import com.rozonww.middleware.RateLimiter;
 import com.rozonww.models.Submission;
 import com.rozonww.repositories.SubmissionRepository;
 import com.rozonww.services.mailer.models.MailerConfiguration;
@@ -50,6 +51,8 @@ public class Main {
             res.message = req.message;
             ctx.json(res);
         });
+
+        app.before("/cfp", RateLimiter::checkRequest);
 
         app.post("/cfp", ctx -> {
             MailerSendRequest req = ctx.bodyAsClass(MailerSendRequest.class);
