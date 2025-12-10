@@ -27,7 +27,7 @@ public final class RateLimiter {
         boolean isAllowed = bucket.tryConsume(1);
 
         if (!isAllowed) {
-            throw new TooManyRequestsResponse("Rate limit exceeded");
+            throw new TooManyRequestsResponse("I can't let you get close");
         }
     }
 
