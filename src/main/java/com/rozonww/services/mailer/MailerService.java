@@ -1,5 +1,6 @@
 package com.rozonww.services.mailer;
 
+import com.rozonww.services.mailer.models.MailerConfiguration;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;

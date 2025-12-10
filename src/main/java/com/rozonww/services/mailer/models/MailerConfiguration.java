@@ -1,4 +1,4 @@
-package com.rozonww.services.mailer;
+package com.rozonww.services.mailer.models;
 
 public class MailerConfiguration {
     public MailerConfiguration(String smtpHost,
@@ -13,9 +13,9 @@ public class MailerConfiguration {
         this.from = from;
     }
 
-    String smtpHost;
-    int smtpPort;
-    String username;
-    String password;
-    String from;
+    public String smtpHost;
+    public int smtpPort;
+    public String username;
+    public String password;
+    public String from;
 }
