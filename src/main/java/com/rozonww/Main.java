@@ -52,9 +52,9 @@ public class Main {
             ctx.json(res);
         });
 
-        app.before("/cfp", RateLimiter::checkRequest);
+        app.before("/call-for-speakers", RateLimiter::checkRequest);
 
-        app.post("/cfp", ctx -> {
+        app.post("/call-for-speakers", ctx -> {
             MailerSendRequest req = ctx.bodyAsClass(MailerSendRequest.class);
             req.validate();
 
