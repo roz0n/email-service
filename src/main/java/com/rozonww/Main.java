@@ -69,7 +69,7 @@ public class Main {
             SubmissionRepository submissionRepo = new SubmissionRepository(pgDataSource);
             Submission result = submissionRepo.insert(submission);
 
-            mailer.send(result.email, result.title, result.description);
+            mailer.send(env.get("INBOX_EMAIL"), result.title, result.description);
             ctx.json(Map.of("success", true));
         });
 
